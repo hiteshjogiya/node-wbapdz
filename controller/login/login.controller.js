@@ -1,22 +1,27 @@
-const express = require('express');
+var express = require('express');
+var router = express.Router();
+var config = require('../../authentication/globalconfig');
+var jwt = require('jsonwebtoken');
 
-const router = express.Router();
-const employeedomain = require('../../domain/controller.domain/employees.domain');
-var assignment = require('./child/assignment.controller');
+router.post('/', (req, res) => {
+  let userData = {
+    username: req.body.username,
+    password: req.body.password,
+  };
 
-class employeeController {
-  //to get all record
-  static get(req, res) {
-    const emp = new employeedomain();
-    emp.getAllemp(req, res);
+  var token = jwt.sign(userData, config.secretkey, {
+    algorithm: config.algorithm,
+    expiresIn: '5m',
+  });
+  if (userData.username === 'admin' && userData.password === 'admin') {
+    res.status(200).json({
+      message: 'login successful',
+      jwtoken: token,
+    });
+  } else {
+    res.status(401).json({
+      message: 'invalid user',
+    });
   }
-  //to return particular record
-  static getOneEmp(req, res) {
-    const emp = new employeedomain();
-    emp.getempRecord(req, res);
-  }
-}
-router.use('/:empId/assignment', assignment);
-router.get('/', employeeController.get);
-router.get('/:empId', employeeController.getOneEmp);
+});
 module.exports = router;

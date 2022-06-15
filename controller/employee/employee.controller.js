@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const employeedomain = require('../../domain/controller.domain/employees.domain');
+const employeedomain = require('../../domain/employees.domain');
 var assignment = require('./child/assignment.controller');
 
 class employeeController {

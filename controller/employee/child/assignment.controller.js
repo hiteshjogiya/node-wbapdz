@@ -1,5 +1,5 @@
 var express = require('express');
-const employeedomain = require('../../../domain/controller.domain/employees.domain');
+const employeedomain = require('../../../domain/employees.domain');
 var router = express.Router({ mergeParams: true });
 
 class assignmentController {
